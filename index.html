@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!-- saved from url=(0051)https://vqhungnew.github.io/Multi-Client-Broadcast/ -->
-<html lang="vi"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chương 5 Lab: Multi-Client, Broadcast &amp; MQTT Collaborative Whiteboard</title>
   <!-- Nhúng thư viện MQTT.js qua CDN -->
-  <script src="./mqtt.min.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="b7d183e6-5537-4e98-a1cb-6120e7dc6017" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script>
+  <script src="./mqtt.min.js"></script>
   <style>
     :root {
       --bg-main: #0f172a;
@@ -254,6 +254,7 @@
       cursor: crosshair;
       display: block;
       border-radius: 4px;
+      touch-action: none;
     }
 
     /* Right Properties Panel */
@@ -445,6 +446,148 @@
         bottom: 0;
       }
     }
+
+
+    /* MOBILE PAINT UX — responsive overrides; keeps existing markup and logic */
+    @media (max-width: 768px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { min-width: 320px; }
+      header { padding: .75rem 1rem; }
+      .header-title { font-size: 1.05rem; }
+      .header-sub { font-size: .78rem; line-height: 1.4; }
+      .nav-tabs { gap: .25rem; padding: .4rem .55rem 0; scrollbar-width: thin; }
+      .tab-btn { padding: .7rem .85rem; font-size: .85rem; min-height: 44px; }
+      main { padding: .75rem; width: 100%; }
+      .card { padding: .9rem; margin-bottom: .9rem; }
+      .grid-2, .grid-sidebar { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+
+      .paint-container {
+        height: min(78dvh, 820px);
+        min-height: 440px;
+        border-radius: 10px;
+        position: relative;
+      }
+      .paint-topbar { padding: .45rem .55rem; gap: .4rem; flex-wrap: wrap; }
+      .paint-logo { font-size: .95rem; }
+      .paint-actions { gap: .15rem; flex-wrap: wrap; }
+      .paint-icon-btn { min-width: 40px; min-height: 40px; padding: .55rem; }
+      .paint-separator { margin: 0 .15rem; }
+      .paint-zoom-label { min-width: 42px; }
+
+      .paint-main { min-height: 0; position: relative; }
+      .paint-canvas-area {
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 6px 62px;
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+      .paint-canvas-wrapper {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 auto;
+        box-shadow: 0 4px 18px rgba(0,0,0,.32);
+      }
+      #whiteboard {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        aspect-ratio: 5 / 3;
+        object-fit: contain;
+        touch-action: none;
+      }
+      .paint-toolbar {
+        position: absolute;
+        z-index: 20;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: 58px;
+        padding: .35rem .45rem;
+        flex-direction: row;
+        align-items: center;
+        gap: .3rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: 0;
+        border-top: 1px solid var(--paint-border);
+        scrollbar-width: thin;
+        box-shadow: 0 -5px 18px rgba(0,0,0,.24);
+      }
+      .paint-tool-btn {
+        flex: 0 0 44px;
+        width: 44px;
+        min-width: 44px;
+        height: 44px;
+        padding: .65rem;
+        border-radius: 10px;
+      }
+      .paint-tool-btn svg { width: 21px; height: 21px; }
+      .paint-tool-btn:hover { transform: none; }
+      .paint-tool-btn[data-tooltip]:hover::after { display: none; }
+
+      .paint-properties {
+        position: absolute;
+        z-index: 30;
+        top: 0;
+        right: 0;
+        bottom: 58px;
+        width: min(320px, 88vw);
+        max-width: 88vw;
+        padding: .9rem;
+        overflow-y: auto;
+        box-shadow: -8px 0 28px rgba(0,0,0,.45);
+        border-left: 1px solid var(--paint-border);
+      }
+      .paint-properties.collapsed { display: none; }
+      .paint-panel-toggle { min-width: 40px; min-height: 40px; padding: .55rem; }
+      .paint-statusbar { padding: .45rem .6rem; gap: .4rem; flex-wrap: wrap; font-size: .68rem; }
+      .paint-status-item { gap: .3rem; }
+      .paint-status-item:nth-child(n+3) { display: none; }
+
+      canvas.drawing-canvas { height: auto; min-height: 220px; aspect-ratio: 5 / 3; }
+      .anim-canvas { height: auto; max-width: 100%; }
+      #mqttAnimCanvas { height: auto !important; }
+      input, select, textarea, button { font-size: max(16px, 1em); }
+      .paint-slider { min-height: 28px; }
+      .paint-color-picker { height: 42px; }
+      .paint-color-swatch { width: 38px; height: 38px; flex: 0 0 38px; }
+      .paint-palette { grid-template-columns: repeat(6, minmax(24px, 1fr)); }
+    }
+
+    @media (max-width: 480px) {
+      header { padding: .65rem .75rem; }
+      .header-title { font-size: .98rem; }
+      .header-sub { font-size: .72rem; }
+      main { padding: .5rem; }
+      .nav-tabs { padding-left: .35rem; padding-right: .35rem; }
+      .tab-btn { padding: .65rem .7rem; font-size: .8rem; }
+      .paint-container { height: 76dvh; min-height: 410px; border-radius: 8px; }
+      .paint-topbar { align-items: center; }
+      .paint-logo { font-size: .85rem; }
+      .paint-actions { margin-left: auto; }
+      .paint-icon-btn { min-width: 36px; min-height: 38px; padding: .45rem; }
+      .paint-canvas-area { padding: 6px 4px 60px; }
+      .paint-toolbar { height: 56px; }
+      .paint-tool-btn { flex-basis: 42px; min-width: 42px; width: 42px; height: 42px; }
+      .paint-properties { bottom: 56px; width: 90vw; max-width: 90vw; }
+      .paint-statusbar { font-size: .64rem; }
+      .card-title { font-size: .98rem; }
+      .btn { min-height: 42px; }
+    }
+
+    @media (max-width: 768px) and (orientation: landscape) {
+      .paint-container { height: 82dvh; min-height: 300px; }
+      header { padding-top: .4rem; padding-bottom: .4rem; }
+      .header-sub { display: none; }
+      main { padding-top: .4rem; padding-bottom: .4rem; }
+    }
+
   </style>
 <style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
 @keyframes caretBlink {
@@ -1176,6 +1319,10 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
                     <div class="paint-color-swatch" style="background-color: #f59e0b;" data-color="#f59e0b"></div>
                     <div class="paint-color-swatch" style="background-color: #8b5cf6;" data-color="#8b5cf6"></div>
                   </div>
+                  <label class="paint-prop-label" for="customStrokeColor" style="margin-top:0.65rem;">Màu tùy chỉnh</label>
+                  <input type="color" id="customStrokeColor" class="paint-color-picker" value="#0f172a" aria-label="Chọn màu nét vẽ">
+                  <label class="paint-prop-label" for="strokeHexInput" style="margin-top:0.5rem;">Mã HEX</label>
+                  <input type="text" id="strokeHexInput" value="#0f172a" maxlength="7" spellcheck="false" aria-label="Mã màu HEX" style="width:100%;box-sizing:border-box;background:var(--paint-bg-hover);color:var(--paint-text-primary);border:1px solid var(--paint-border);border-radius:6px;padding:0.55rem;font:inherit;">
                   <div class="paint-palette">
                     <div class="paint-palette-color" style="background-color: #000000;" data-color="#000000"></div>
                     <div class="paint-palette-color" style="background-color: #ffffff;" data-color="#ffffff"></div>
@@ -1745,6 +1892,8 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
       }
       painting = true;
       smoothedPoints = [];
+      // Lưu trạng thái trước mỗi thao tác để Undo hoạt động cho cả nét bút, tẩy và hình học.
+      saveState();
       const pos = getCursorPos(e);
       lastX = pos.x;
       lastY = pos.y;
@@ -1756,7 +1905,6 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         shapeStartX = pos.x;
         shapeStartY = pos.y;
         canvasSnapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        saveState();
       }
     }
 
@@ -1875,7 +2023,9 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         isDrawingShape = false;
         canvasSnapshot = null;
         painting = false;
-        undo();
+        // Hình đã được khôi phục về trạng thái ban đầu, bỏ checkpoint vừa tạo.
+        if (undoStack.length) undoStack.pop();
+        updateUndoRedoButtons();
       }
     }
 
@@ -2039,6 +2189,8 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         setLoginStatus('Đăng nhập và kết nối MQTT trước khi xóa bảng.', true);
         return;
       }
+      if (!window.confirm('Bạn có chắc muốn xóa toàn bộ bảng vẽ? Thao tác này sẽ ảnh hưởng đến mọi người trong phòng.')) return;
+      saveState();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       client.publish(topicName, JSON.stringify({ sender: myId, name: displayName, type: 'clear' }));
       logNet('Bạn đã gửi lệnh xóa toàn bộ bảng vẽ.');
@@ -2089,7 +2241,61 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         document.querySelectorAll('.paint-color-swatch, .paint-palette-color').forEach(s => s.classList.remove('active'));
         swatch.classList.add('active');
         currentColor = swatch.dataset.color;
+        if (typeof customStrokeColor !== 'undefined') {
+          customStrokeColor.value = currentColor;
+          strokeHexInput.value = currentColor;
+        }
       });
+    });
+
+    // Màu tùy chỉnh: đồng bộ color picker, mã HEX và các công cụ vẽ.
+    const customStrokeColor = document.getElementById('customStrokeColor');
+    const strokeHexInput = document.getElementById('strokeHexInput');
+    function applyCustomStrokeColor(value) {
+      if (!/^#[0-9a-fA-F]{6}$/.test(value)) return false;
+      currentColor = value.toLowerCase();
+      customStrokeColor.value = currentColor;
+      strokeHexInput.value = currentColor;
+      document.querySelectorAll('.paint-color-swatch, .paint-palette-color').forEach(el => {
+        el.classList.toggle('active', (el.dataset.color || '').toLowerCase() === currentColor);
+      });
+      return true;
+    }
+    customStrokeColor.addEventListener('input', e => applyCustomStrokeColor(e.target.value));
+    strokeHexInput.addEventListener('change', e => {
+      const value = e.target.value.trim();
+      if (!applyCustomStrokeColor(value)) {
+        e.target.value = currentColor;
+        alert('Mã màu không hợp lệ. Hãy nhập theo dạng #RRGGBB, ví dụ #38BDF8.');
+      }
+    });
+
+    // Phím tắt: không can thiệp khi người dùng đang nhập liệu.
+    document.addEventListener('keydown', (e) => {
+      const target = e.target;
+      const typing = target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+      if (typing) return;
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) document.getElementById('redoBtn').click();
+        else document.getElementById('undoBtn').click();
+        return;
+      }
+      if (mod && e.key.toLowerCase() === 'y') {
+        e.preventDefault();
+        document.getElementById('redoBtn').click();
+        return;
+      }
+      if (e.key === 'Escape' && isDrawingShape) cancelShapeDrawing();
+      if (!mod && !e.altKey) {
+        const toolByKey = { b: 'brush', e: 'eraser', l: 'line', r: 'rect', o: 'ellipse' };
+        const tool = toolByKey[e.key.toLowerCase()];
+        if (tool) {
+          const button = document.querySelector(`.paint-tool-btn[data-tool="${tool}"]`);
+          if (button) button.click();
+        }
+      }
     });
 
     // Brush size slider
@@ -2175,11 +2381,23 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         const file = e.target.files[0];
         if (file) {
           const img = new Image();
+          const objectUrl = URL.createObjectURL(file);
           img.onload = () => {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            saveState();
+            const scale = Math.min(canvas.width / img.width, canvas.height / img.height, 1);
+            const width = Math.round(img.width * scale);
+            const height = Math.round(img.height * scale);
+            const x = Math.round((canvas.width - width) / 2);
+            const y = Math.round((canvas.height - height) / 2);
+            ctx.drawImage(img, x, y, width, height);
+            URL.revokeObjectURL(objectUrl);
             logNet('Đã nhập ảnh vào bảng vẽ.');
           };
-          img.src = URL.createObjectURL(file);
+          img.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            alert('Không thể đọc ảnh này. Hãy thử file PNG, JPEG hoặc WebP khác.');
+          };
+          img.src = objectUrl;
         }
       };
       input.click();
@@ -2231,9 +2449,10 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         img.onload = () => {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0);
+          updateUndoRedoButtons();
         };
+        img.onerror = () => console.error('Không thể khôi phục trạng thái Undo.');
         img.src = imgData;
-        updateUndoRedoButtons();
       }
     });
 
@@ -2246,14 +2465,12 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         img.onload = () => {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0);
+          updateUndoRedoButtons();
         };
+        img.onerror = () => console.error('Không thể khôi phục trạng thái Redo.');
         img.src = imgData;
-        updateUndoRedoButtons();
       }
     });
-
-    // Save initial state
-    setTimeout(() => saveState(), 500);
 
     setInterval(() => {
       const now = Date.now();
@@ -2279,6 +2496,4 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
   </script>
 
 
-</body><en2vi-host class="corom-element" version="3" style="all: initial; position: absolute; top: 0; left: 0; right: 0; height: 0; margin: 0; text-align: left; z-index: 10000000000; pointer-events: none; border: none; display: block"><template shadowrootmode="open"><style>@import "chrome-extension://gfgbmghkdjckppeomloefmbphdfmokgd/css/common.css";
-@import "chrome-extension://gfgbmghkdjckppeomloefmbphdfmokgd/css/style.css";</style><style id="svelte-1f4zgot">.toast-container.svelte-1f4zgot{position:fixed;pointer-events:none;width:0;height:0;display:flex;flex-direction:column-reverse;align-items:center;z-index:1000;bottom:0;padding:16px;gap:8px}.show.svelte-1f4zgot{width:100%;height:100%}</style>   <div class="toast-container svelte-1f4zgot"></div></template></en2vi-host><savior-host style="all: unset; position: absolute; top: 0; left: 0; z-index: 99999999999999; display: block !important; overflow: unset"><template shadowrootmode="open"><style>@import "chrome-extension://jdfkmiabjpfjacifcmihfdjhpnjpiick/css/content-script.css";
-</style><div class="body"><div class="turn-lights-overlay"></div><toasts id="toasts-container"></toasts></div></template></savior-host></html>
+</body></html>
