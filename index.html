@@ -2516,8 +2516,9 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
     };
 
 
-    // Standalone Snake mini-game. It does not use or modify the Paint canvas/MQTT.
-    (() => {
+    // Standalone Snake mini-game. Initialize after the HTML elements have been parsed.
+    // It does not use or modify the Paint canvas/MQTT.
+    document.addEventListener('DOMContentLoaded', () => {
       const modal = document.getElementById('snakeModal');
       const board = document.getElementById('snakeCanvas');
       if (!modal || !board) return;
@@ -2579,7 +2580,7 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
       board.addEventListener('pointerdown',e=>{touchStart={x:e.clientX,y:e.clientY};});
       board.addEventListener('pointerup',e=>{if(!touchStart)return;const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;touchStart=null;if(Math.max(Math.abs(dx),Math.abs(dy))<12)return;setDirection(Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up'));});
       reset();
-    })();
+    });
 
   </script>
 
