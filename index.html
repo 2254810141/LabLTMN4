@@ -78,6 +78,373 @@
     
     .step-box { background-color: #0f172a; border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; }
     .step-box h4 { color: var(--accent-blue); font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+    /* PAINT ULTRA PRO MAX STYLES - DARK PREMIUM */
+    :root {
+      --paint-bg-dark: #0d1117;
+      --paint-bg-card: #161b22;
+      --paint-bg-hover: #21262d;
+      --paint-border: #30363d;
+      --paint-accent-cyan: #06b6d4;
+      --paint-accent-purple: #8b5cf6;
+      --paint-accent-pink: #ec4899;
+      --paint-text-primary: #e6edf3;
+      --paint-text-secondary: #8b949e;
+    }
+
+    .paint-container {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 180px);
+      background-color: var(--paint-bg-dark);
+      border: 1px solid var(--paint-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Top Toolbar */
+    .paint-topbar {
+      background: linear-gradient(135deg, var(--paint-bg-card) 0%, #1a1f2e 100%);
+      border-bottom: 1px solid var(--paint-border);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .paint-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--paint-accent-cyan), var(--paint-accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.1rem;
+    }
+    .paint-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .paint-icon-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--paint-text-secondary);
+      padding: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .paint-icon-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    .paint-icon-btn:hover:not(:disabled) {
+      background-color: var(--paint-bg-hover);
+      color: var(--paint-text-primary);
+      border-color: var(--paint-border);
+    }
+    .paint-icon-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .paint-separator {
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(180deg, transparent, var(--paint-border), transparent);
+      margin: 0 0.5rem;
+    }
+    .paint-zoom-label {
+      font-size: 0.75rem;
+      color: var(--paint-accent-cyan);
+      min-width: 45px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Main Layout */
+    .paint-main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Left Toolbar */
+    .paint-toolbar {
+      background: linear-gradient(180deg, var(--paint-bg-card) 0%, #1a1f2e 100%);
+      border-right: 1px solid var(--paint-border);
+      width: 56px;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem 0.5rem;
+      gap: 0.25rem;
+      overflow-y: auto;
+    }
+    .paint-tool-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--paint-text-secondary);
+      padding: 0.6rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .paint-tool-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    .paint-tool-btn:hover {
+      background-color: var(--paint-bg-hover);
+      color: var(--paint-text-primary);
+      transform: scale(1.05);
+    }
+    .paint-tool-btn.active {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--paint-accent-cyan);
+      border-color: var(--paint-accent-cyan);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+    }
+    .paint-tool-btn[data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 8px;
+      background-color: var(--paint-bg-card);
+      color: var(--paint-text-primary);
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      border: 1px solid var(--paint-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 100;
+    }
+
+    /* Canvas Area */
+    .paint-canvas-area {
+      flex: 1;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .paint-canvas-wrapper {
+      position: relative;
+      transform-origin: center center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border-radius: 4px;
+    }
+    #whiteboard {
+      background-color: #ffffff;
+      cursor: crosshair;
+      display: block;
+      border-radius: 4px;
+    }
+
+    /* Right Properties Panel */
+    .paint-properties {
+      background: linear-gradient(180deg, var(--paint-bg-card) 0%, #1a1f2e 100%);
+      border-left: 1px solid var(--paint-border);
+      width: 260px;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .paint-prop-header {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--paint-accent-cyan);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--paint-border);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .paint-prop-section {
+      margin-bottom: 1.25rem;
+    }
+    .paint-prop-label {
+      font-size: 0.75rem;
+      color: var(--paint-text-secondary);
+      margin-bottom: 0.5rem;
+      display: block;
+      font-weight: 500;
+    }
+    .paint-color-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .paint-color-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 2px solid var(--paint-border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .paint-color-swatch:hover {
+      transform: scale(1.1);
+      border-color: var(--paint-accent-cyan);
+    }
+    .paint-color-swatch.active {
+      border-color: var(--paint-accent-cyan);
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+    }
+    .paint-fill-swatch {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--paint-border);
+      transition: all 0.2s;
+    }
+    .paint-fill-swatch:hover {
+      transform: scale(1.1);
+      border-color: var(--paint-accent-cyan);
+    }
+    .paint-fill-swatch.active {
+      border-color: var(--paint-accent-cyan);
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+    }
+    .paint-color-picker {
+      width: 100%;
+      height: 32px;
+      border: 1px solid var(--paint-border);
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      background: var(--paint-bg-hover);
+    }
+    .paint-palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+    }
+    .paint-palette-color {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--paint-border);
+      transition: all 0.2s;
+    }
+    .paint-palette-color:hover {
+      transform: scale(1.15);
+      border-color: var(--paint-accent-cyan);
+    }
+    .paint-slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--paint-bg-hover);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .paint-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--paint-accent-cyan), var(--paint-accent-purple));
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(6, 182, 212, 0.4);
+    }
+    .paint-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--paint-accent-cyan), var(--paint-accent-purple));
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(6, 182, 212, 0.4);
+    }
+    .paint-value-display {
+      font-size: 0.8rem;
+      color: var(--paint-accent-cyan);
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+
+    /* Bottom Status Bar */
+    .paint-statusbar {
+      background: linear-gradient(90deg, var(--paint-bg-card) 0%, #1a1f2e 100%);
+      border-top: 1px solid var(--paint-border);
+      padding: 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--paint-text-secondary);
+    }
+    .paint-status-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .paint-status-item span {
+      color: var(--paint-accent-cyan);
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    .paint-panel-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--paint-border);
+      color: var(--paint-text-secondary);
+      padding: 0.4rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .paint-panel-toggle:hover {
+      background-color: var(--paint-bg-hover);
+      color: var(--paint-text-primary);
+    }
+    @media (max-width: 1024px) {
+      .paint-panel-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .paint-toolbar.collapsed,
+      .paint-properties.collapsed {
+        display: none;
+      }
+      .paint-toolbar,
+      .paint-properties {
+        position: absolute;
+        z-index: 10;
+        background: var(--paint-bg-card);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      }
+      .paint-toolbar {
+        left: 0;
+        top: 0;
+        bottom: 0;
+      }
+      .paint-properties {
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+    }
   </style>
 <style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
 @keyframes caretBlink {
@@ -648,23 +1015,6 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         </div></div>
           </div>
 
-          <div class="card" bis_skin_checked="1">
-            <div class="card-title" bis_skin_checked="1"><span>Công Cụ Vẽ</span></div>
-            <div style="margin-bottom: 0.75rem;" bis_skin_checked="1">
-              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Màu sắc nét cọ:</label>
-              <div class="color-picker" bis_skin_checked="1">
-                <div class="color-btn active" style="background-color: #0f172a;" onclick="setColor(&#39;#0f172a&#39;, this)" bis_skin_checked="1"></div>
-                <div class="color-btn" style="background-color: #ef4444;" onclick="setColor(&#39;#ef4444&#39;, this)" bis_skin_checked="1"></div>
-                <div class="color-btn" style="background-color: #22c55e;" onclick="setColor(&#39;#22c55e&#39;, this)" bis_skin_checked="1"></div>
-                <div class="color-btn" style="background-color: #38bdf8;" onclick="setColor(&#39;#38bdf8&#39;, this)" bis_skin_checked="1"></div>
-              </div>
-            </div>
-            <div style="margin-bottom: 1rem;" bis_skin_checked="1">
-              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Độ dày: <span id="sizeVal">20</span>px</label>
-              <input type="range" id="brushSize" min="1" max="20" value="4" style="width: 100%; accent-color: var(--accent-blue);" oninput="document.getElementById(&#39;sizeVal&#39;).textContent=this.value">
-            </div>
-            <button class="btn btn-danger" onclick="clearBoard()">Xóa Sạch Bảng Chung</button>
-          </div>
 
           <div class="card" bis_skin_checked="1">
             <div class="card-title" bis_skin_checked="1"><span>Nhật Ký Thao Tác &amp; Mạng</span></div>
@@ -672,13 +1022,226 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
           </div>
         </div>
 
-        <div class="card" style="display: flex; flex-direction: column;" bis_skin_checked="1">
-          <div class="card-title" bis_skin_checked="1">
-            <span>Bảng Vẽ Phân Tán (Hỗ trợ PC &amp; Điện thoại cuộn trang)</span>
-            <span class="badge badge-green">Optimized Touch</span>
-          </div>
-          <div class="canvas-container" style="flex: 1; margin-bottom: 0;" bis_skin_checked="1">
-            <canvas id="whiteboard" class="drawing-canvas" width="1000" height="600" style="height: 560px;"></canvas>
+        <div class="card" style="display: flex; flex-direction: column; padding: 0; overflow: hidden;" bis_skin_checked="1">
+          <div class="paint-container">
+            <div class="paint-topbar">
+              <div class="paint-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                  <path d="M2 2l7.586 7.586"/>
+                  <circle cx="11" cy="11" r="2"/>
+                </svg>
+                Paint Premium
+              </div>
+              <div class="paint-actions">
+                <button class="paint-icon-btn" id="undoBtn" title="Hoàn tác" disabled>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 7v6h6"/>
+                    <path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"/>
+                  </svg>
+                </button>
+                <button class="paint-icon-btn" id="redoBtn" title="Làm lại" disabled>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 7v6h-6"/>
+                    <path d="M3 17a9 9 0 019-9 9 9 0 016 2.3L21 13"/>
+                  </svg>
+                </button>
+                <div class="paint-separator"></div>
+                <button class="paint-icon-btn" id="zoomOutBtn" title="Thu nhỏ">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                    <path d="M8 11h6"/>
+                  </svg>
+                </button>
+                <span class="paint-zoom-label" id="zoomLabel">100%</span>
+                <button class="paint-icon-btn" id="zoomInBtn" title="Phóng to">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                    <path d="M11 8v6"/>
+                    <path d="M8 11h6"/>
+                  </svg>
+                </button>
+                <div class="paint-separator"></div>
+                <button class="paint-icon-btn" id="importBtn" title="Nhập ảnh">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </button>
+                <button class="paint-icon-btn" id="exportBtn" title="Xuất ảnh">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                </button>
+                <button class="paint-panel-toggle" id="toggleToolbar" title="Ẩn/Hiện thanh công cụ">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M9 3v18"/>
+                  </svg>
+                </button>
+                <button class="paint-panel-toggle" id="toggleProperties" title="Ẩn/Hiện thuộc tính">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M15 3v18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="paint-main">
+              <div class="paint-toolbar" id="paintToolbar">
+                <button class="paint-tool-btn active" data-tool="brush" data-tooltip="Bút vẽ">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                    <path d="M2 2l7.586 7.586"/>
+                    <circle cx="11" cy="11" r="2"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="eraser" data-tooltip="Tẩy xóa">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 20H7L3 16C2 15 2 13 3 12L13 2L22 11L20 20Z"/>
+                    <path d="M17 17L7 7"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="line" data-tooltip="Đường thẳng">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="19" x2="19" y2="5"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="arrow" data-tooltip="Mũi tên">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="rect" data-tooltip="Hình chữ nhật">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="circle" data-tooltip="Hình tròn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="ellipse" data-tooltip="Hình elip">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <ellipse cx="12" cy="12" rx="9" ry="6"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="triangle" data-tooltip="Hình tam giác">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3L22 21H2L12 3z"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="softbrush" data-tooltip="Cọ mềm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                    <circle cx="11" cy="11" r="3" stroke-opacity="0.5"/>
+                  </svg>
+                </button>
+                <button class="paint-tool-btn" data-tool="marker" data-tooltip="Bút đánh dấu">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 11l-6 6v3h3l6-6"/>
+                    <path d="M22 12l-4.6 4.6a2 2 0 01-2.8 0l-5.2-5.2a2 2 0 010-2.8L14 4"/>
+                    <path d="M14 4l6 6"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="paint-canvas-area">
+                <div class="paint-canvas-wrapper" id="canvasWrapper">
+                  <canvas id="whiteboard" width="1000" height="600"></canvas>
+                </div>
+              </div>
+
+              <div class="paint-properties" id="paintProperties">
+                <div class="paint-prop-header">Thuộc tính công cụ</div>
+                
+                <div class="paint-prop-section">
+                  <label class="paint-prop-label">Màu nét vẽ</label>
+                  <div class="paint-color-row">
+                    <div class="paint-color-swatch active" style="background-color: #0f172a;" data-color="#0f172a"></div>
+                    <div class="paint-color-swatch" style="background-color: #ef4444;" data-color="#ef4444"></div>
+                    <div class="paint-color-swatch" style="background-color: #22c55e;" data-color="#22c55e"></div>
+                    <div class="paint-color-swatch" style="background-color: #38bdf8;" data-color="#38bdf8"></div>
+                    <div class="paint-color-swatch" style="background-color: #f59e0b;" data-color="#f59e0b"></div>
+                    <div class="paint-color-swatch" style="background-color: #8b5cf6;" data-color="#8b5cf6"></div>
+                  </div>
+                  <div class="paint-palette">
+                    <div class="paint-palette-color" style="background-color: #000000;" data-color="#000000"></div>
+                    <div class="paint-palette-color" style="background-color: #ffffff;" data-color="#ffffff"></div>
+                    <div class="paint-palette-color" style="background-color: #64748b;" data-color="#64748b"></div>
+                    <div class="paint-palette-color" style="background-color: #ec4899;" data-color="#ec4899"></div>
+                    <div class="paint-palette-color" style="background-color: #14b8a6;" data-color="#14b8a6"></div>
+                    <div class="paint-palette-color" style="background-color: #f97316;" data-color="#f97316"></div>
+                    <div class="paint-palette-color" style="background-color: #84cc16;" data-color="#84cc16"></div>
+                    <div class="paint-palette-color" style="background-color: #06b6d4;" data-color="#06b6d4"></div>
+                    <div class="paint-palette-color" style="background-color: #a855f7;" data-color="#a855f7"></div>
+                    <div class="paint-palette-color" style="background-color: #eab308;" data-color="#eab308"></div>
+                    <div class="paint-palette-color" style="background-color: #f43f5e;" data-color="#f43f5e"></div>
+                    <div class="paint-palette-color" style="background-color: #6366f1;" data-color="#6366f1"></div>
+                  </div>
+                </div>
+
+                <div class="paint-prop-section">
+                  <label class="paint-prop-label">Màu tô</label>
+                  <div class="paint-color-row">
+                    <div class="paint-fill-swatch" style="background-color: transparent; border: 2px dashed #94a3b8;" data-color="transparent" title="Không tô màu"></div>
+                    <div class="paint-fill-swatch active" style="background-color: #ef4444;" data-color="#ef4444"></div>
+                    <div class="paint-fill-swatch" style="background-color: #22c55e;" data-color="#22c55e"></div>
+                    <div class="paint-fill-swatch" style="background-color: #38bdf8;" data-color="#38bdf8"></div>
+                    <div class="paint-fill-swatch" style="background-color: #f59e0b;" data-color="#f59e0b"></div>
+                    <div class="paint-fill-swatch" style="background-color: #8b5cf6;" data-color="#8b5cf6"></div>
+                  </div>
+                  <input type="color" id="customFillColor" class="paint-color-picker" value="#ef4444">
+                </div>
+
+                <div class="paint-prop-section">
+                  <label class="paint-prop-label">Độ dày nét: <span id="brushSizeValue">4</span>px</label>
+                  <input type="range" id="brushSize" class="paint-slider" min="1" max="50" value="4">
+                </div>
+
+                <div class="paint-prop-section">
+                  <label class="paint-prop-label">Độ trong suốt: <span id="opacityValue">100</span>%</label>
+                  <input type="range" id="opacitySlider" class="paint-slider" min="10" max="100" value="100">
+                </div>
+
+                <div class="paint-prop-section">
+                  <label class="paint-prop-label">Kích thước tẩy: <span id="eraserSizeValue">20</span>px</label>
+                  <input type="range" id="eraserSize" class="paint-slider" min="5" max="100" value="20">
+                </div>
+
+                <div class="paint-prop-section">
+                  <label class="paint-prop-label">Làm mượt nét: <span id="smoothingValue">0</span>%</label>
+                  <input type="range" id="smoothingSlider" class="paint-slider" min="0" max="100" value="0">
+                </div>
+
+                <div class="paint-prop-section">
+                  <button class="btn btn-danger" onclick="clearBoard()" style="margin-top: 0.5rem;">Xóa Sạch Bảng</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="paint-statusbar">
+              <div class="paint-status-item">
+                Công cụ: <span id="statusTool">Bút vẽ</span>
+              </div>
+              <div class="paint-status-item">
+                Zoom: <span id="statusZoom">100%</span>
+              </div>
+              <div class="paint-status-item">
+                Tọa độ: <span id="statusCoords">0, 0</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1134,14 +1697,15 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
           if (data.type === 'draw') {
             const points = [data.x1, data.y1, data.x2, data.y2].map(Number);
             const size = Number(data.size);
+            const tool = data.tool || 'brush';
             const validPoints = points.every(Number.isFinite)
               && points[0] >= 0 && points[0] <= canvas.width
               && points[2] >= 0 && points[2] <= canvas.width
               && points[1] >= 0 && points[1] <= canvas.height
               && points[3] >= 0 && points[3] <= canvas.height;
-            if (!validPoints || !Number.isFinite(size) || size < 1 || size > 20
+            if (!validPoints || !Number.isFinite(size) || size < 1 || size > 100
                 || typeof data.color !== 'string' || !/^#[0-9a-f]{6}$/i.test(data.color)) return;
-            drawLine(points[0], points[1], points[2], points[3], data.color, size);
+            drawLine(points[0], points[1], points[2], points[3], data.color, size, tool);
             logNet(`${String(data.name || data.sender).slice(0, 24)} đang vẽ.`);
           } else if (data.type === 'clear') {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1180,9 +1744,20 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         return;
       }
       painting = true;
+      smoothedPoints = [];
       const pos = getCursorPos(e);
       lastX = pos.x;
       lastY = pos.y;
+      smoothedPoints.push({ x: pos.x, y: pos.y });
+      
+      const geometricTools = ['line', 'arrow', 'rect', 'circle', 'ellipse', 'triangle'];
+      if (geometricTools.includes(currentTool)) {
+        isDrawingShape = true;
+        shapeStartX = pos.x;
+        shapeStartY = pos.y;
+        canvasSnapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        saveState();
+      }
     }
 
     function drawPosition(e) {
@@ -1191,19 +1766,65 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
       const pos = getCursorPos(e);
       const currentX = pos.x;
       const currentY = pos.y;
-      const size = Number(document.getElementById('brushSize').value);
-
-      drawLine(lastX, lastY, currentX, currentY, currentColor, size);
+      
+      const geometricTools = ['line', 'arrow', 'rect', 'circle', 'ellipse', 'triangle'];
+      
+      if (geometricTools.includes(currentTool) && isDrawingShape) {
+        ctx.putImageData(canvasSnapshot, 0, 0);
+        
+        let endX = currentX;
+        let endY = currentY;
+        
+        if (shiftPressed) {
+          const dx = endX - shapeStartX;
+          const dy = endY - shapeStartY;
+          const dist = Math.max(Math.abs(dx), Math.abs(dy));
+          endX = shapeStartX + (dx >= 0 ? dist : -dist);
+          endY = shapeStartY + (dy >= 0 ? dist : -dist);
+        }
+        
+        const size = Number(document.getElementById('brushSize').value);
+        drawGeometricShape(currentTool, shapeStartX, shapeStartY, endX, endY, currentColor, size, fillColor, currentOpacity);
+        return;
+      }
+      
+      let size = Number(document.getElementById('brushSize').value);
+      let drawColor = currentColor;
+      let drawTool = currentTool;
+      
+      if (currentTool === 'eraser') {
+        size = eraserSize;
+        drawColor = '#ffffff';
+      }
+      
+      smoothedPoints.push({ x: currentX, y: currentY });
+      
+      let drawX1 = lastX, drawY1 = lastY, drawX2 = currentX, drawY2 = currentY;
+      
+      if (smoothingFactor > 0 && smoothedPoints.length > 2) {
+        const smoothed = applySmoothing(smoothedPoints, smoothingFactor);
+        if (smoothed.length >= 2) {
+          const lastSmoothed = smoothed[smoothed.length - 2];
+          const currentSmoothed = smoothed[smoothed.length - 1];
+          drawX1 = lastSmoothed.x;
+          drawY1 = lastSmoothed.y;
+          drawX2 = currentSmoothed.x;
+          drawY2 = currentSmoothed.y;
+        }
+      }
+      
+      drawLine(drawX1, drawY1, drawX2, drawY2, drawColor, size, drawTool);
 
       if (client.connected && mqttReady) {
         const packet = JSON.stringify({
           sender: myId,
           name: displayName,
           type: 'draw',
-          x1: lastX, y1: lastY,
-          x2: currentX, y2: currentY,
-          color: currentColor,
-          size: size
+          x1: drawX1, y1: drawY1,
+          x2: drawX2, y2: drawY2,
+          color: drawColor,
+          size: size,
+          tool: drawTool
         });
         client.publish(topicName, packet);
       }
@@ -1211,10 +1832,164 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
       lastX = currentX;
       lastY = currentY;
     }
+    
+    function applySmoothing(points, factor) {
+      if (points.length < 3) return points;
+      const smoothed = [];
+      const windowSize = Math.max(3, Math.floor(factor * 10) + 2);
+      
+      for (let i = 0; i < points.length; i++) {
+        const start = Math.max(0, i - Math.floor(windowSize / 2));
+        const end = Math.min(points.length, i + Math.floor(windowSize / 2) + 1);
+        let sumX = 0, sumY = 0, count = 0;
+        
+        for (let j = start; j < end; j++) {
+          sumX += points[j].x;
+          sumY += points[j].y;
+          count++;
+        }
+        
+        smoothed.push({
+          x: sumX / count,
+          y: sumY / count
+        });
+      }
+      
+      return smoothed;
+    }
 
     function endPosition(e) {
       if (!painting) return;
       painting = false;
+      
+      const geometricTools = ['line', 'arrow', 'rect', 'circle', 'ellipse', 'triangle'];
+      if (geometricTools.includes(currentTool) && isDrawingShape) {
+        isDrawingShape = false;
+        canvasSnapshot = null;
+      }
+    }
+
+    function cancelShapeDrawing() {
+      if (isDrawingShape && canvasSnapshot) {
+        ctx.putImageData(canvasSnapshot, 0, 0);
+        isDrawingShape = false;
+        canvasSnapshot = null;
+        painting = false;
+        undo();
+      }
+    }
+
+    function drawGeometricShape(tool, x1, y1, x2, y2, color, size, fill, opacity) {
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.strokeStyle = color;
+      ctx.fillStyle = fill;
+      ctx.lineWidth = size;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      switch(tool) {
+        case 'line':
+          drawShapeLine(x1, y1, x2, y2);
+          break;
+        case 'arrow':
+          drawShapeArrow(x1, y1, x2, y2);
+          break;
+        case 'rect':
+          drawShapeRect(x1, y1, x2, y2, fill);
+          break;
+        case 'circle':
+          drawShapeCircle(x1, y1, x2, y2, fill);
+          break;
+        case 'ellipse':
+          drawShapeEllipse(x1, y1, x2, y2, fill);
+          break;
+        case 'triangle':
+          drawShapeTriangle(x1, y1, x2, y2, fill);
+          break;
+      }
+      
+      ctx.restore();
+    }
+
+    function drawShapeLine(x1, y1, x2, y2) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+
+    function drawShapeArrow(x1, y1, x2, y2) {
+      const headLength = 15;
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - headLength * Math.cos(angle - Math.PI / 6), y2 - headLength * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(x2 - headLength * Math.cos(angle + Math.PI / 6), y2 - headLength * Math.sin(angle + Math.PI / 6));
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function drawShapeRect(x1, y1, x2, y2, fill) {
+      const width = x2 - x1;
+      const height = y2 - y1;
+      
+      ctx.beginPath();
+      ctx.rect(x1, y1, width, height);
+      
+      if (fill !== 'transparent') {
+        ctx.fill();
+      }
+      ctx.stroke();
+    }
+
+    function drawShapeCircle(x1, y1, x2, y2, fill) {
+      const radius = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      
+      ctx.beginPath();
+      ctx.arc(x1, y1, radius, 0, Math.PI * 2);
+      
+      if (fill !== 'transparent') {
+        ctx.fill();
+      }
+      ctx.stroke();
+    }
+
+    function drawShapeEllipse(x1, y1, x2, y2, fill) {
+      const radiusX = Math.abs(x2 - x1);
+      const radiusY = Math.abs(y2 - y1);
+      const centerX = x1;
+      const centerY = y1;
+      
+      ctx.beginPath();
+      ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, Math.PI * 2);
+      
+      if (fill !== 'transparent') {
+        ctx.fill();
+      }
+      ctx.stroke();
+    }
+
+    function drawShapeTriangle(x1, y1, x2, y2, fill) {
+      const width = x2 - x1;
+      const height = y2 - y1;
+      
+      ctx.beginPath();
+      ctx.moveTo(x1 + width / 2, y1);
+      ctx.lineTo(x1, y2);
+      ctx.lineTo(x2, y2);
+      ctx.closePath();
+      
+      if (fill !== 'transparent') {
+        ctx.fill();
+      }
+      ctx.stroke();
     }
 
     canvas.addEventListener('mousedown', startPosition);
@@ -1226,21 +2001,37 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
     canvas.addEventListener('touchmove', drawPosition, { passive: false });
     canvas.addEventListener('touchend', endPosition);
 
-    function drawLine(x1, y1, x2, y2, color, size) {
+    function drawLine(x1, y1, x2, y2, color, size, tool = 'brush') {
+      ctx.save();
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
       ctx.strokeStyle = color;
       ctx.lineWidth = size;
       ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      if (tool === 'softbrush') {
+        ctx.shadowBlur = size * 1.5;
+        ctx.shadowColor = color;
+        ctx.globalAlpha = currentOpacity * 0.8;
+      } else if (tool === 'marker') {
+        ctx.globalAlpha = 0.5;
+      } else if (tool === 'eraser') {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.globalAlpha = currentOpacity;
+      }
+      
       ctx.stroke();
-      ctx.closePath();
+      ctx.restore();
     }
 
     function setColor(color, element) {
       currentColor = color;
       document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
+      if (element) element.classList.add('active');
     }
 
     function clearBoard() {
@@ -1252,6 +2043,217 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
       client.publish(topicName, JSON.stringify({ sender: myId, name: displayName, type: 'clear' }));
       logNet('Bạn đã gửi lệnh xóa toàn bộ bảng vẽ.');
     }
+
+    // --- NEW PAINT INTERFACE FUNCTIONALITY ---
+    let currentTool = 'brush';
+    let currentOpacity = 1;
+    let eraserSize = 20;
+    let smoothingFactor = 0;
+    let zoomLevel = 1;
+    let undoStack = [];
+    let redoStack = [];
+    let smoothedPoints = [];
+    let fillColor = 'transparent';
+    let isDrawingShape = false;
+    let shapeStartX = 0;
+    let shapeStartY = 0;
+    let shiftPressed = false;
+    let canvasSnapshot = null;
+
+    // Tool selection
+    document.querySelectorAll('.paint-tool-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.paint-tool-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTool = btn.dataset.tool;
+        const toolNames = {
+          brush: 'Bút vẽ',
+          eraser: 'Tẩy xóa',
+          line: 'Đường thẳng',
+          arrow: 'Mũi tên',
+          rect: 'Hình chữ nhật',
+          circle: 'Hình tròn',
+          ellipse: 'Hình elip',
+          triangle: 'Hình tam giác',
+          softbrush: 'Cọ mềm',
+          marker: 'Bút đánh dấu'
+        };
+        document.getElementById('statusTool').textContent = toolNames[currentTool] || currentTool;
+        smoothedPoints = [];
+      });
+    });
+
+    // Color selection
+    document.querySelectorAll('.paint-color-swatch, .paint-palette-color').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        document.querySelectorAll('.paint-color-swatch, .paint-palette-color').forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        currentColor = swatch.dataset.color;
+      });
+    });
+
+    // Brush size slider
+    document.getElementById('brushSize').addEventListener('input', (e) => {
+      document.getElementById('brushSizeValue').textContent = e.target.value;
+    });
+
+    // Opacity slider
+    document.getElementById('opacitySlider').addEventListener('input', (e) => {
+      currentOpacity = e.target.value / 100;
+      document.getElementById('opacityValue').textContent = e.target.value;
+    });
+
+    // Eraser size slider
+    document.getElementById('eraserSize').addEventListener('input', (e) => {
+      eraserSize = Number(e.target.value);
+      document.getElementById('eraserSizeValue').textContent = e.target.value;
+    });
+
+    // Brush smoothing slider
+    document.getElementById('smoothingSlider').addEventListener('input', (e) => {
+      smoothingFactor = e.target.value / 100;
+      document.getElementById('smoothingValue').textContent = e.target.value;
+    });
+
+    // Fill color selection
+    document.querySelectorAll('.paint-fill-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        document.querySelectorAll('.paint-fill-swatch').forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        fillColor = swatch.dataset.color;
+        document.getElementById('customFillColor').value = fillColor === 'transparent' ? '#ef4444' : fillColor;
+      });
+    });
+
+    // Custom fill color picker
+    document.getElementById('customFillColor').addEventListener('input', (e) => {
+      fillColor = e.target.value;
+      document.querySelectorAll('.paint-fill-swatch').forEach(s => s.classList.remove('active'));
+    });
+
+    // Shift key for aspect ratio locking
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Shift') shiftPressed = true;
+      if (e.key === 'Escape' && isDrawingShape) {
+        cancelShapeDrawing();
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'Shift') shiftPressed = false;
+    });
+
+    // Zoom functionality
+    document.getElementById('zoomInBtn').addEventListener('click', () => {
+      if (zoomLevel < 3) {
+        zoomLevel = Math.min(3, zoomLevel + 0.25);
+        updateZoom();
+      }
+    });
+
+    document.getElementById('zoomOutBtn').addEventListener('click', () => {
+      if (zoomLevel > 0.25) {
+        zoomLevel = Math.max(0.25, zoomLevel - 0.25);
+        updateZoom();
+      }
+    });
+
+    function updateZoom() {
+      const wrapper = document.getElementById('canvasWrapper');
+      wrapper.style.transform = `scale(${zoomLevel})`;
+      const zoomPercent = Math.round(zoomLevel * 100);
+      document.getElementById('zoomLabel').textContent = zoomPercent + '%';
+      document.getElementById('statusZoom').textContent = zoomPercent + '%';
+    }
+
+    // Import image
+    document.getElementById('importBtn').addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            logNet('Đã nhập ảnh vào bảng vẽ.');
+          };
+          img.src = URL.createObjectURL(file);
+        }
+      };
+      input.click();
+    });
+
+    // Export image
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'paint-export.png';
+      link.href = canvas.toDataURL();
+      link.click();
+      logNet('Đã xuất bảng vẽ thành ảnh PNG.');
+    });
+
+    // Panel toggles
+    document.getElementById('toggleToolbar').addEventListener('click', () => {
+      document.getElementById('paintToolbar').classList.toggle('collapsed');
+    });
+
+    document.getElementById('toggleProperties').addEventListener('click', () => {
+      document.getElementById('paintProperties').classList.toggle('collapsed');
+    });
+
+    // Status bar coordinates
+    canvas.addEventListener('mousemove', (e) => {
+      const pos = getCursorPos(e);
+      document.getElementById('statusCoords').textContent = `${Math.round(pos.x)}, ${Math.round(pos.y)}`;
+    });
+
+    // Save state for undo
+    function saveState() {
+      undoStack.push(canvas.toDataURL());
+      if (undoStack.length > 20) undoStack.shift();
+      redoStack = [];
+      updateUndoRedoButtons();
+    }
+
+    function updateUndoRedoButtons() {
+      document.getElementById('undoBtn').disabled = undoStack.length === 0;
+      document.getElementById('redoBtn').disabled = redoStack.length === 0;
+    }
+
+    // Undo
+    document.getElementById('undoBtn').addEventListener('click', () => {
+      if (undoStack.length > 0) {
+        redoStack.push(canvas.toDataURL());
+        const imgData = undoStack.pop();
+        const img = new Image();
+        img.onload = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = imgData;
+        updateUndoRedoButtons();
+      }
+    });
+
+    // Redo
+    document.getElementById('redoBtn').addEventListener('click', () => {
+      if (redoStack.length > 0) {
+        undoStack.push(canvas.toDataURL());
+        const imgData = redoStack.pop();
+        const img = new Image();
+        img.onload = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = imgData;
+        updateUndoRedoButtons();
+      }
+    });
+
+    // Save initial state
+    setTimeout(() => saveState(), 500);
 
     setInterval(() => {
       const now = Date.now();
