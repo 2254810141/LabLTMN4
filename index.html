@@ -574,11 +574,18 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
             <form id="loginForm">
               <label for="displayNameInput" style="font-size: 0.8rem; color: var(--text-muted);">Tên hiển thị</label>
               <input class="login-input" id="displayNameInput" type="text" maxlength="24" autocomplete="nickname" placeholder="Nhập tên của bạn" required>
-              <button class="btn" id="loginButton" type="submit">Vào Bảng Chung</button>
+              <button class="btn" id="loginButton" type="submit">Vào Bảng Riêng</button>
               <button class="btn" id="logoutButton" type="button" hidden>Đăng Xuất</button>
-              <p class="login-note">Dùng cùng tên trên các thiết bị để nhận diện bạn. Đây là tên hiển thị, không phải tài khoản/mật khẩu; bảng dùng chung cho mọi người.</p>
+              <p class="login-note">Tên này chỉ để hiển thị, không phải tài khoản/mật khẩu. Chỉ người có link mời bên dưới mới biết mã phòng để kết nối.</p>
               <p id="loginStatus" class="login-note" role="status">Chưa đăng nhập.</p>
             </form>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>Link Mời Vào Bảng Riêng</span></div>
+            <input class="login-input" id="inviteLinkInput" type="text" readonly aria-label="Link mời vào bảng riêng">
+            <button class="btn" id="copyInviteButton" type="button">Sao Chép Link Mời</button>
+            <p class="login-note">Gửi link này cho người bạn muốn cùng vẽ. Ai có link đều có thể vào và vẽ; đừng đăng công khai nếu muốn giữ riêng tư.</p>
+            <p id="inviteStatus" class="login-note" role="status"></p>
           </div>
           <div class="card" bis_skin_checked="1">
             <div class="card-title" bis_skin_checked="1">
@@ -918,8 +925,32 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
       : Date.now().toString(36) + Math.random().toString(36).slice(2));
     document.getElementById('myClientId').textContent = myId;
 
-    const topicName = "netprog/class/whiteboard/room_master";
-    const presenceTopic = "netprog/class/whiteboard/presence";
+    function createRoomKey() {
+      if (!window.crypto || !window.crypto.getRandomValues) {
+        throw new Error('Trình duyệt không hỗ trợ tạo link phòng an toàn.');
+      }
+      const bytes = new Uint8Array(32);
+      window.crypto.getRandomValues(bytes);
+      return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+    }
+
+    const roomKeyPattern = /^[a-f0-9]{64}$/i;
+    const roomParameters = new URLSearchParams(window.location.hash.slice(1));
+    let roomKey = roomParameters.get('room');
+    if (!roomKey || !roomKeyPattern.test(roomKey)) {
+      roomKey = createRoomKey();
+      window.location.hash = `room=${roomKey}`;
+    }
+    roomKey = roomKey.toLowerCase();
+    const inviteLinkInput = document.getElementById('inviteLinkInput');
+    function updateInviteLink() {
+      inviteLinkInput.value = window.location.href;
+    }
+    updateInviteLink();
+    window.addEventListener('pageshow', updateInviteLink);
+
+    const topicName = `netprog/class/whiteboard/rooms/${roomKey}/draw`;
+    const presenceTopic = `netprog/class/whiteboard/rooms/${roomKey}/presence`;
     const activeClients = new Map();
     let mqttReady = false;
 
@@ -984,6 +1015,20 @@ div[class^="tiktok"].--savior-overlay-z-index-reset {
         status
       }));
     }
+
+    document.getElementById('copyInviteButton').addEventListener('click', async () => {
+      const inviteStatus = document.getElementById('inviteStatus');
+      try {
+        updateInviteLink();
+        await navigator.clipboard.writeText(window.location.href);
+        inviteStatus.textContent = 'Đã sao chép link mời. Chỉ gửi link này cho người bạn muốn tham gia.';
+        inviteStatus.style.color = 'var(--accent-green)';
+      } catch (error) {
+        console.error('Không thể sao chép link mời.', error);
+        inviteStatus.textContent = 'Không thể tự sao chép. Hãy chọn và sao chép link trong ô phía trên.';
+        inviteStatus.style.color = 'var(--accent-red)';
+      }
+    });
 
     document.getElementById('loginForm').addEventListener('submit', (event) => {
       event.preventDefault();
